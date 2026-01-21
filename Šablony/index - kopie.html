@@ -1,0 +1,620 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="./style.css">
+    <title>Šablony</title>
+</head>
+<body>
+    <h1>Šablony</h1>
+    <div class="header">
+        <h2>Výběr</h2>
+        <h2>Text</h2>
+    </div>
+
+	<!--
+		
+		šablona tlačítka - zkopírovat do dané kategorie (dovnitř div pole-b) a přepsat popisky (pozor, že to skutečně je uvnitř div /div, nebo se všechno rozbije)
+		dole je sekce "extra" na jakékoliv nekaterizované šablony
+		
+                <button onclick="copyFromElement('ID_TEXTU')" class="moznost XXX">
+                    NÁZEV TLAČÍTKA
+                </button>
+
+		ID_TEXTU - ID textu tlačítka, slouží pro propojení
+		moznost XXX - třída tlačítka, určuje barvu, popisy jsou ve style.css (obecne - zelená, dodani - oranžová, chvala - tyrkysová, kritika - červená, info - modrá, kousky - fialová, obecne_neut - žlutá, obecne_nega - červeno-oranžová)
+		NÁZEV TLAČÍTKA - Název. co se reálně zobrazí na stránce
+		
+		šablona textu
+
+		<div id="ID_TEXTU">
+		Dobrý den,
+		</br></br>
+		velice si vážíme Vaší zpětné vazby, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb. 
+		</br></br>
+		V případě dotazů či přání se na nás neváhejte kdykoliv obrátit. Jsme zde pro Vás.
+		</br></br>
+		S přáním hezkého dne
+		Tým Megaknihy
+		</div>
+		
+		odstavce vždy ukončit </br></br> kvůli formátování
+		ID musí být úplně stejné jako v copyFromElement('ID_TEXTU')
+		vkládá se to dolů do div class="hidden"
+	-->
+
+    <div class="container-big">
+        <div class="tabulka">
+            <div class="pole-a">Obecná (ne)spokojenost</div>
+            <div class="pole-b">
+
+	<!-- sem se dávají tlačítka (nebo do jiné třídy, ale vždy do sekce "pole-b" -->
+
+                <button  class="moznost obecne" onclick="copyFromElement('spokojenost1')">
+                    Spokojenost 1
+                </button>
+                <button onclick="copyFromElement('spokojenost2')" class="moznost obecne">
+                    Spokojenost 2
+                </button>
+                <button onclick="copyFromElement('spokojenost3')" class="moznost obecne">
+                    Spokojenost 3
+                </button>
+                <button onclick="copyFromElement('neutralni')" class="moznost obecne_neut">
+                    Neutrální
+                </button>
+                <button onclick="copyFromElement('negativni')" class="moznost obecne_nega">
+                    Negativní
+                </button>
+            </div>
+            <div class="pole-a">Doba dodání</div>
+            <div class="pole-b">
+                <button onclick="copyFromElement('dodani1')" class="moznost dodani">
+                    Doba dodání
+                </button>
+                <button onclick="copyFromElement('dodani2')" class="moznost dodani">
+                    Doba dodání 2
+                </button>
+                <button onclick="copyFromElement('dodani3')" class="moznost dodani">
+                    Doba dodání 3 - info bylo
+                </button>
+                <button onclick="copyFromElement('nebylo_skadem')" class="moznost dodani">
+                    Nebylo skadem v počtu
+                </button>
+                <button onclick="copyFromElement('nebylo_skadem_dny')" class="moznost dodani">
+                    Nebylo skadem - dny - UPRAVIT
+                </button>
+            </div>
+            <div class="pole-a">Specifická chvála</div>
+            <div class="pole-b">
+                <button onclick="copyFromElement('sortiment')" class="moznost chvala">
+                    Široký sortiment (výběr)
+                </button>
+                <button onclick="copyFromElement('rychlost')" class="moznost chvala">
+                    Rychlé dodání/vyřízení
+                </button>
+                <button onclick="copyFromElement('ceny1')" class="moznost chvala">
+                    Ceny zboží
+                </button>
+                <button onclick="copyFromElement('ceny2')" class="moznost chvala">
+                    Ceny zboží 2
+                </button>
+                <button onclick="copyFromElement('cena_rychlost')" class="moznost chvala">
+                    Cena / Rychlost
+                </button>
+                <button onclick="copyFromElement('cena_sortiment')" class="moznost chvala">
+                    Cena / Sortiment (výběr)
+                </button>
+                <button onclick="copyFromElement('rychlost_sortiment')" class="moznost chvala">
+                    Rychlost / Sortiment (výběr)
+                </button>
+            </div>
+            <div class="pole-a">Specifická kritika</div>
+            <div class="pole-b">
+                <button onclick="copyFromElement('reklamace')" class="moznost kritika">
+                    Nespokojenost/reklamace
+                </button>
+                <button onclick="copyFromElement('zabalení')" class="moznost kritika">
+                    Špatné zabalení zásilky 
+                </button>
+                <button onclick="copyFromElement('nedostpne')" class="moznost kritika">
+                    Nedostupné zboží
+                </button>
+                <button onclick="copyFromElement('komunikace')" class="moznost kritika">
+                    Problém s komunikací
+                </button>
+                <button onclick="copyFromElement('proverili')" class="moznost kritika">
+                    Prověřili jsme
+                </button>
+                <button onclick="copyFromElement('spatna_cena')" class="moznost kritika">
+                    Špatná cena - > storno
+                </button>
+            </div>
+            <div class="pole-a">Doplňující info</div>
+            <div class="pole-b">
+                <button onclick="copyFromElement('balne1')" class="moznost info">
+                    Balné
+                </button>
+                <button onclick="copyFromElement('balne2')" class="moznost info">
+                    Balné 2
+                </button>
+                <button onclick="copyFromElement('vydejne')" class="moznost info">
+                    Výdejné a balné - prodejna
+                </button>
+                <button onclick="copyFromElement('zmena_ceny')" class="moznost info">
+                    Změna ceny u zboží
+                </button>
+                <button onclick="copyFromElement('cena_prodejna')" class="moznost info">
+                    Jiná cena na eshopu a na prodejně
+                </button>
+                <button onclick="copyFromElement('presmerovani')" class="moznost info">
+                    Přesměrování zásilky na jiné výdejní místo
+                </button>
+                <button onclick="copyFromElement('prodlouzeni')" class="moznost info">
+                    Prodloužení výdeje zásilky
+                </button>
+            </div>
+            <div class="pole-a">Kousky</div>
+            <div class="pole-b">
+                <button onclick="copyFromElement('balne_mini')" class="moznost kousky">
+                    Balné
+                </button>
+                <button onclick="copyFromElement('balne_prodejna')" class="moznost kousky">
+                    Balné na prodejnu
+                </button>
+                <button onclick="copyFromElement('kontakty')" class="moznost kousky">
+                    Kontakty
+                </button>
+                <button onclick="copyFromElement('kontakty_mini')" class="moznost kousky">
+                    Kontakty méně
+                </button>
+                <button onclick="copyFromElement('dlouho')" class="moznost kousky">
+                    Trvalo dlouho
+                </button>
+                <button onclick="copyFromElement('rychle_mini')" class="moznost kousky">
+                    Rychlé dodání
+                </button>
+                <button onclick="copyFromElement('ceny_mini')" class="moznost kousky">
+                    Nízké ceny
+                </button>
+                <button onclick="copyFromElement('zabaleni_mini')" class="moznost kousky">
+                    Špatné zabalení
+                </button>
+                <button onclick="copyFromElement('negativni_mini')" class="moznost kousky">
+                    Mrzí nás
+                </button>
+            </div>
+	    	<div class="pole-a">Extra</div>
+            	<div class="pole-b">
+
+		<button onclick="copyFromElement('test')" class="moznost custom">
+                    Test
+                </button>
+
+		</div>
+        </div>
+        
+        <div class="text">
+<p id="output">
+    Text se kopíruje automaticky. Zde se zároveň zobrazí jeho obsah.
+</p>
+        </div>
+    </div>
+
+    <p id="message" style="color: green; display: none;">Zkopírováno!</p>
+
+    <script>
+        function copyFromElement(elementId) {
+          const element = document.getElementById(elementId);
+          if (!element) return;
+    
+          // Zachová HTML formátování
+          const html = element.innerHTML.trim();
+    
+          // Kopíruje pouze čistý text (HTML tagy se do schránky nekopírují)
+          const text = element.innerText.trim();
+    
+          navigator.clipboard.writeText(text)
+            .then(() => {
+              
+    
+              // Do výstupního bloku vloží HTML (s formátováním)
+              const output = document.getElementById("output");
+              output.innerHTML = html;
+            })
+            .catch(err => console.error('Nepodařilo se zkopírovat text: ', err));
+        }
+      </script>
+<div class="hidden">
+
+<!-- sem se vkládají texty -->
+
+
+<div id="test">
+Dobrý den,
+</br></br>
+tohle je příklad vlastního textu, klidně se může vymazat.
+</br></br>
+Odstavce vždy musí být zakončeny dvěmi značkami br pro správné formátování.
+</br></br>
+S přáním hezkého dne
+JPV    
+</div>
+
+
+
+<div id="spokojenost1">
+Dobrý den,
+</br></br>
+velice si vážíme pozitivní zpětné vazby a těšíme se na Vaši příští objednávku. Jsme rádi za každého spokojeného zákazníka.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy    
+</div>
+
+<div id="spokojenost2">
+Dobrý den,
+</br></br>
+mnohokrát děkujeme za Vaši recenzi, která nás velmi těší a motivuje nás k tomu, abychom se neustále zlepšovali. 
+</br></br>
+Těšíme se na Vaši další objednávku.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="spokojenost3">
+Dobrý den,
+</br></br>
+těší nás Vaše pozitivní reakce. 
+</br></br>
+Velice nám záleží na spokojenosti zákazníka.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="neutralni">
+Dobrý den,
+</br></br>
+velice si vážíme Vaší zpětné vazby, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb. 
+</br></br>
+V případě dotazů či přání se na nás neváhejte kdykoliv obrátit. Jsme zde pro Vás.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="negativni">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb.
+</br></br>
+Mrzí nás Vaše negativní zkušenost s naším e-shopem. 
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="dodani1">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb.
+</br></br>
+Zároveň se velice omlouváme za komplikace spojené s prodlením ve vyřízení objednávky.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="dodani2">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali našim specialistům pro zlepšení služeb.
+</br></br>
+Omlouváme se za potíže způsobené zpožděním Vaší objednávky a děkujeme za Vaši trpělivost.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="dodani3">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb. Dovolili jsme si Vás informovat prostřednictvím e-mailu ohledně aktuálního stavu Vaší objednávky.
+</br></br>
+Zároveň se velice omlouváme za komplikace spojené s prodlením ve vyřízení objednávky.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="nebylo_skadem">
+Dobrý den,
+</br></br>
+děkujeme Vám za Vaši zpětnou vazbu.
+</br></br>
+Po prověření Vaší objednávky bylo zjištěno, že některé položky nebyly skladem v požadovaném počtu. Tyto položky byly obratem objednány u našeho dodavatele.
+</br></br>
+Omlouváme se za komplikace spojené s prodlením ve vyřízení objednávky.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="nebylo_skadem_dny">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb.
+</br></br>
+Po prověření Vaší objednávky bylo zjištěno, že některé položky nebyly skladem, na eshopu u nich bylo uvedeno, že jsou skladem u dodavatele a dodací lhůta k nám na expedici byla xxx dnů. Tyto položky byly obratem objednány u našeho dodavatele a včas dodány, zásilka odešla ve lhůtách, které byly avizované na eshopu.
+</br></br>
+V případě dalších dotazů či přání se na nás neváhejte kdykoliv obrátit. Jsme zde pro Vás. 
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="sortiment">
+Dobrý den,
+</br></br>
+vážíme si Vaší pozitivní zpětné vazby. Snažíme se neustále rozšiřovat náš sortiment, abychom uspokojili co nejširší škálu našich zákazníků.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="rychlost">
+Dobrý den,
+</br></br>
+velice si vážíme Vaší pozitivní zpětné vazby. Naší prioritou je rychlé a brzké dodání objednávky k našim zákazníkům.
+</br></br>
+Těšíme se na Vaši příští objednávku.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="ceny1">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb.
+</br></br>
+Naší snahou je držet ceny zboží co nejníže je to možné ve snaze uspokojit co nejvíce našich zákazníků.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="ceny2">
+Dobrý den,
+</br></br>
+děkujeme za Vaši pozitivní zpětnou vazbu. 
+</br></br>
+Naší snahou je držet ceny zboží co nejníže je to možné ve snaze uspokojit co nejvíce našich zákazníků.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="cena_rychlost">
+Dobrý den,
+</br></br>
+velice si vážíme Vaší pozitivní zpětné vazby. Naší prioritou je rychlé a brzké dodání objednávky a držet ceny zboží co nejníže je to možné ve snaze uspokojit co nejvíce našich zákazníků.
+</br></br>
+Těšíme se na Vaši příští objednávku.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="cena_sortiment">
+Dobrý den,
+</br></br>
+vážíme si Vaší pozitivní zpětné vazby. Snažíme se neustále rozšiřovat náš sortiment a držet ceny zboží co nejníže je to možné ve snaze uspokojit co nejvíce našich zákazníků.
+</br></br>
+S přáním hezkého dne
+</br></br>
+Tým Megaknihy
+</div>
+
+<div id="rychlost_sortiment">
+Dobrý den,
+</br></br>
+vážíme si Vaší pozitivní zpětné vazby. Snažíme se neustále rozšiřovat náš sortiment a naší prioritou je rychlé a brzké dodání objednávky k našim zákazníkům.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="reklamace">
+Dobrý den,
+</br></br>
+děkujeme za Váš podnět i sdělené informace, které byly zaevidovány v rámci zkvalitnění našich služeb.
+</br></br>
+Pokud Vám doručené zboží nevyhovuje, lze jej obratem vrátit či reklamovat z důvodu poškození zboží. V rámci reklamace Vám bude samozřejmě proplaceno vynaložené poštovné.
+</br></br>
+V případě dalších dotazů či přání se na nás neváhejte kdykoliv obrátit. Jsme zde pro Vás. Děkujeme za Vaši shovívavost a velice se omlouváme za způsobené komplikace.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="zabalení">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb.
+</br></br>
+Mrzí nás Vaše negativní zkušenost se způsobem zabalení Vaší zásilky.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="nedostpne">
+Dobrý den,
+</br></br>
+děkujeme Vám za Vaši zpětnou vazbu.
+</br></br>
+Po prověření Vaší objednávky bylo zjištěno, že některé položky se staly v průběhu zpracování objednávky nedostupnými od našeho dodavatele. 
+</br></br>
+Omlouváme se za způsobené komplikace. 
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="komunikace">
+Dobrý den, 
+</br></br>
+děkujeme za Vaši zpětnou vazbu.
+</br></br>
+Komunikace se zákazníkem je naší prioritou. Vždy se snažíme co nejrychleji řešit veškeré požadavky či vzniklé problémy s objednávkou. 
+</br></br>
+V případě dotazů ke konkrétní objednávce nás neváhejte kontaktovat na e-mail 
+info@megaknihy.cz, nebo volejte na (po-pá: 8:00-17:00): 222 703 143. 
+Jsme zde pro Vás.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="proverili">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu. Stav objednávky jsme prověřili a celou záležitost jsme předali pověřeným kolegům, kteří budou dodání objednávky urgovat.
+</br></br>
+Omlouváme se za způsobené komplikace.
+</br></br>
+V případě dotazů nás neváhejte kontaktovat.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="spatna_cena">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb.
+</br></br>
+Mrzí nás Vaše negativní zkušenost, která byla způsobena chybně uvedenými cenami u dodavatele, které byly následně automaticky převzaty naším systémem.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="balne1">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu. 
+</br></br>
+Zmíněné balné u nás není započteno v ceně dopravy a právě z tohoto důvodu je tato položka uvedena zvlášť. Cena balného je zobrazena v košíku při vytváření objednávky a dále v kategorii Doprava a platba na našem e-shopu.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="balne2">
+Dobrý den,
+</br></br>
+děkujeme Vám za Vaši zpětnou vazbu.
+</br></br>
+Balné není započteno v ceně dopravy. Ceny za dopravu jsou z tohoto důvodu nižší. Cena balného je zobrazena v košíku při vytváření objednávky a dále v kategorii Doprava a platba na našem e-shopu.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="vydejne">
+Dobrý den,
+</br></br>
+dlouho jsme se bránili nastavení částky za vyzvednutí zboží na pobočce. Inflace však navýšila náklady související s přepravou produktů na pobočky natolik, že jsme museli k tomuto kroku s lítostí přistoupit.
+</br></br>
+Při doručení zásilky na prodejnu je tedy účtován poplatek za balné a výdej zásilky. Zásilka je z důvodu prevence poškození při převozu z expedice na prodejnu standardně zabalena.
+</br></br>
+Je naším přáním, abyste se k nám i nadále vždy s radostí vraceli.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="zmena_ceny">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, produkty od dodavatelů doplňujeme několikrát za den, tedy z tohoto důvodu se ceny u jednotlivých produktů také tak často mění (jak směrem dolů, tak směrem nahoru). Vždy je platná cena uvedená na e-shopu v okamžiku odeslání objednávky.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</br></br>
+</div>
+
+<div id="cena_prodejna">
+Dobrý den,
+</br></br>
+děkujeme za Vaši zpětnou vazbu, kterou jsme předali pověřeným kolegům v rámci zkvalitnění našich služeb.
+</br></br>
+Naší snahou je držet ceny zboží co nejníže je to možné ve snaze uspokojit co nejvíce našich zákazníků. To však v souvislosti s prodejnami nelze kvůli nákladům na provoz jednotlivých prodejen. Nejnižší ceny proto vždy najdete na našem e-shopu.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="presmerovani">
+Dobrý den, 
+</br></br>
+děkujeme za Vaši zpětnou vazbu a omlouváme se za způsobené komplikace. Zásilka byla přepravcem z kapacitních důvodů přesměrována na jiné výdejní místo. Takové rozhodnutí bohužel náš e-shop nemůže ovlivnit.
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="prodlouzeni">
+Dobrý den, 
+</br></br>
+děkujeme za Vaši zpětnou vazbu. 
+</br></br>
+Výdej zásilky můžeme na Vaše přání prodloužit. V případě zájmu nás neváhejte kontaktovat na e-mail info@megaknihy.cz, nebo volejte na (po-pá: 8:00-17:00): 222 703 143. 
+</br></br>
+S přáním hezkého dne
+Tým Megaknihy
+</div>
+
+<div id="balne_mini">
+Balné není započteno v ceně dopravy. Ceny za dopravu jsou z tohoto důvodu nižší. Cena balného je zobrazena v košíku při vytváření objednávky a dále v kategorii Doprava a platba na našem e-shopu.
+</div>
+<div id="balne_prodejna">
+Při doručení zásilky na prodejnu je účtován poplatek za balné a výdej zásilky. Zásilka je z důvodu prevence poškození při převozu z expedice na prodejnu standardně zabalena.
+</div>
+
+<div id="kontakty">
+V případě dotazů ke konkrétní objednávce nás neváhejte kontaktovat na e-mail 
+info@megaknihy.cz, nebo volejte na (po-pá: 8:00-17:00): 222 703 143. 
+</br></br>
+Jsme zde pro Vás.
+</div>
+
+<div id="kontakty_mini">
+V případě dotazů či přání se na nás neváhejte kdykoliv obrátit. Jsme zde pro Vás.
+</div>
+<div id="dlouho">
+Zároveň se velice omlouváme za komplikace spojené s prodlením ve vyřízení objednávky.
+</div>
+
+<div id="ceny_mini">
+a držet ceny zboží co nejníže je to možné ve snaze uspokojit co nejvíce našich zákazníků.
+</div>
+
+<div id="rychle_mini">
+a naší prioritou je rychlé a brzké dodání objednávky k našim zákazníkům.
+</div>
+
+<div id="zabaleni_mini">
+Mrzí nás Vaše negativní zkušenost se způsobem zabalení Vaší zásilky.
+</div>
+
+<div id="negativni_mini">
+Mrzí nás Vaše negativní zkušenost s naším e-shopem.
+</div>
+
+</body>
+</html>

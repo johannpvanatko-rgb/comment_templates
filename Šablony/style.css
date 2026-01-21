@@ -1,0 +1,117 @@
+body {
+    padding: 2rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: black;
+    color: white;
+}
+.header {
+    display: flex;
+    flex-direction: row;
+}
+.header h2:first-of-type {
+    flex-grow: 76;
+}
+.header h2:last-of-type {
+    flex-grow: 24;
+}
+.container-big {
+    display: flex;
+    flex-direction: row;
+}
+.tabulka {
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    grid-template-rows: repeat(6, 1fr);
+    grid-column-gap: 0px;
+    grid-row-gap: 0px;
+    width: 75%;    
+}
+.text {
+    width: 25%;
+}
+.pole-b {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: left;
+}
+a {
+    text-decoration: none;
+    color: white;
+}
+.moznost {
+    padding: 1rem;
+    margin: 0.5rem;
+    height: 3.25rem;
+    font-size: 1rem;
+    color: white;
+    border-radius: 1rem;
+    text-align: center;
+    border: none;
+}
+.hidden {
+    display: none;
+}
+
+/*
+zde jsou barvy
+*/
+
+.obecne {
+    background-color: #189412;
+}
+.obecne:hover {
+    background-color: #32bc2a;
+}
+.obecne_neut {
+    background-color: #b8ac40;
+}
+.obecne_neut:hover {
+    background-color: #cfc040;
+}
+.obecne_nega {
+    background-color: #ba6618;
+}
+.obecne_nega:hover {
+    background-color: #cf6f15;
+}
+.dodani {
+    background-color: #bf8b1d;
+}
+.dodani:hover {
+    background-color: #d19619;
+}
+.chvala {
+    background-color: #117e6c;
+}
+.chvala:hover {
+    background-color: #1c9b86;
+}
+.kritika {
+    background-color: #aa3a1e;
+}
+.kritika:hover {
+    background-color: #d65535;
+}
+.info {
+    background-color: #1e35aa;
+}
+.info:hover {
+    background-color: #2f49cb;
+}
+.kousky {
+    background-color: #771eaa;
+}
+.kousky:hover {
+    background-color: #9635ce;
+}
+/*
+vlastní tlačítka - barva v HEX
+hover je barva, která se zobrazí při přejetí myše, měla by být světlejší než ta základní (nebo jakákoliv, záleží na vkusu)
+*/
+.custom {
+    background-color: #808080;
+}
+.custom:hover {
+    background-color: #a8a8a8;
+}
