@@ -1,0 +1,613 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+  <meta charset="UTF-8">
+      <link rel="stylesheet" href="./styles.css">
+
+  <title>Správce patiček</title>
+
+  <style>
+    body { font-family: Arial; margin: 0; }
+
+    .layout { display: flex; height: 100vh; }
+
+    .left { width: 66%; padding: 20px; overflow-y: auto; }
+
+    .right { width: 34%; padding: 20px; border-left: 2px solid #ccc; }
+
+    .entry { display: inline-block; margin: 10px; vertical-align: top; }
+
+    .entry button.main-btn {
+      display: block;
+      width: 120px;
+      height: 50px;
+    }
+
+    .category { margin-bottom: 20px; }
+    .category-title { font-weight: bold; margin-bottom: 5px; }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+      resize: both;
+      margin: 5px 0;
+    }
+
+    input, select {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+    }
+
+    .color-option {
+      width: 20px;
+      height: 20px;
+      display: inline-block;
+      margin: 2px;
+      cursor: pointer;
+      border: 3px solid transparent;
+    }
+
+    .color-selected { border-color: black; }
+  </style>
+</head>
+
+<body>
+    <header id="headerWarning">
+        <p>Databáze nepřipojena, změny nebude možné uložit!</p>
+    </header>
+
+<div class="layout">
+
+  <!-- LEFT -->
+  <div class="left">
+
+    <h2>Správce patiček</h2>
+    <hr>
+
+    <button onclick="connectFile()" class="btn-upload-db">Nahrát databázi</button>
+    <button onclick="saveToFile()" class="btn-save-db">Uložit databázi</button>
+    <p>Nahrát manuálně - pro starší prohlížeče a Firefox:</p>
+    <input type="file" id="fileInput" accept=".json" onchange="loadFileFallback(event)">
+    <button onclick="downloadJSON()">Stáhnout databázi</button>
+    <div id="fileStatus" style="margin-top:10px; font-weight:bold; color:red;">
+    ⚠️ Varování: databáze nepřipojena
+    </div>
+    <a href="" onclick="downloadTemplate()" class="template-download">Stáhnout šablonu</a>
+    <br>
+    <a href="">Soubory webu a návod</a>
+    <br>
+    <a href="" onclick="loadInstructions()">Načíst návod</a>
+    <hr>
+
+    <h3>Kategorie</h3>
+    <input id="newCategoryName" placeholder="Název kategorie">
+    <button onclick="addCategory()">Přidat kategorii</button>
+    <h4>Seznam kategoríí</h4>
+
+    <div id="categoryContainer"></div>
+
+    <hr>
+
+    <h3>Nová patička</h3>
+    <input id="newTitle" placeholder="Název">
+    <textarea id="newText" placeholder="Obsah, který bude zkopírován"></textarea>
+    <select id="newCategorySelect"></select>
+    <div id="newColorContainer"></div>
+    <button onclick="addEntry()">Přidat</button>
+
+    <hr>
+
+    <h2>Seznam patiček</h2>
+
+    <div id="container"></div>
+
+  </div>
+
+  <!-- RIGHT (EDITOR ONLY) -->
+  <div class="right">
+
+    <h3>Úprava patičky</h3>
+
+    <input id="editTitle" placeholder="Název">
+
+    <textarea id="previewText"></textarea>
+
+    <div id="previewActions">
+      <button onclick="saveEdit()">Uložit změny</button>
+      <button onclick="deleteEdit()">Vymazat patičku</button>
+    </div>
+
+    <select id="previewCategory"></select>
+
+    <div id="previewColor"></div>
+
+  </div>
+
+</div>
+<footer>
+    <p>
+        2026 - Johann Petr Vaňátko, OpenAI
+    </p>
+</footer>
+
+<script id="instructionData" type="application/json">
+{
+  "entries": [
+    {
+      "title": "Klikni na mě",
+      "text": "Vítejte ve správci patiček. V tomto návodu bude popsáno, jak se stránkou pracovat. Veškeré informace jsou i v souboru \"readme.txt\" a v odkazu \"Soubory webu a návod\".\n\nPro začátek - pro kopírování textu je možné jednoduše kliknout na tlačítko v seznamu patiček. Text je automaticky zkopírován!",
+      "category": 1,
+      "color": "#f35050"
+    },
+    {
+      "title": "Ukládání a úprava patiček",
+      "text": "V okně \"Nová patička\" nalevo můžete vytvářet nové patičky. Sekce je rozdělena na více částí:\n\n1. Název - zobrazí se na tlačítku (doporučeno používat kratší názvy)\n2. Obsah - text, který bude poté kopírován\n3. Výběr kategorie - ve které kategorii se tlačítko bude zobrazovat (vysvětleno dále)\n4. Barva\n\nPatičky lze i libovolně upravovat a to v tomto okně. Při kliknutí na patičku se automaticky otevře i tento editor. Ukládání změn je vysvětleno dále.",
+      "category": 1,
+      "color": "#f38450"
+    },
+    {
+      "title": "Kategorie",
+      "text": "V levé části stránky najdete sekci \"Kategorie\". Zde jde vytvářet a mazat kategorie. Tlačítka nepřiřazená k jakékoliv kategorii spadají pod kategorii \"Nezařazené\". Sem spadnou i tlačítka přiřazená ke kategorii, která je vymazána ze seznamu.",
+      "category": 1,
+      "color": "#f2eb2a"
+    },
+    {
+      "title": "Databáze",
+      "text": "Aby stránka fungovala i v režimu offline, veškeré vytvořené patičky jsou ukládány do souboru .json. Bez tohoto souboru patičky nebudou načteny a nebude možné je jednoduše ukládat.\n\nV horní stránce stránky najdete sekci \"Databáze\".\n\nOdkazem \"Stáhnout šablonu\" stáhnete čistou šablonu s názvem \"template.json\". (V souborech webu je obsažen i tento soubor s návodem, pokud ho omylem přepíšete).\n\nTlačítkem \"Nahrát databázi\" se otevře průzkumník souborů, v něm je potřeba najít a otevřít vaši databázi.\n\nPokud není připojena žádná databáze, ZMĚNY SE ULOŽÍ POUZE DO PROHLÍŽEČE. Pokud provedete jakékoliv změny v tomto režimu, klikněte na tlačítko \"Stáhnout databázi\". Uloží se vám nový soubor s aktuálními změnami.\n\nZměny lze poté uložit do toho samého souboru tlačítkem \"Uložit databázi\".\n\n\"Nefunguje mi nahrání databáze, ukazuje to chybu\":\nPokud používáte starší prohlížeč nebo Firefox, nahrání a ukládání databáze nebude fungovat. V tomto případě je nutné soubor s databází manuálně vyhledat tlačítkem \"Vybrat soubor\"/\"Procházet\"... a následně manuálně stáhnout již zmíněným tlačítkem hned pod ním. Starý soubor poté vymažte a nahraďte novým.",
+      "category": 1,
+      "color": "#7ecb24"
+    },
+    {
+      "title": "Krok po kroku",
+      "text": "Nové prohlížeče\n1. Nahrát databázi\n2. Najít a vybrat soubor database.json/template.json/(libovolný název).json\n3. Uložit databázi\n\nStarší prohlížeče/Firefox\n1. Vybrat soubor/Procházet\n2. Najít a vybrat soubor database.json/template.json/(libovolný název).json\n3. Stáhnout databázi\n4. V počítači vymažte původní soubor a dále používejte ten nový\n\nPokud uděláte změny bez připojení databáze, klikněte na \"Stáhnout databázi\"\n\nDatabázi je vždy nutné znovu nahrát při obnovení stránky",
+      "category": 1,
+      "color": "#7e80f3"
+    },
+    {
+      "title": "Další info",
+      "text": "Jelikož se patičky ukládají do souboru, je možné mít více různých seznamů patiček, které můžete libovolně střídat. Musí ale využívat template.json (jiné .json soubory nejde nahrát).\n\nStránka byla testována pouze pro tyto prohlížeče: Chrome, Firefox, Brave, Edge na systému Windows 11.",
+      "category": 1,
+      "color": "#ad68f2"
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "Návod"
+    }
+  ]
+}
+</script>
+
+<script>
+
+let entries = [];
+let categories = [];
+let fileHandle = null;
+let fileMode = "none"; 
+// "none" | "fallback" | "connected"
+
+let editingEntryIndex = null;
+let currentColor = '#d2d2d2';
+
+const colors = [
+  '#f35050', '#f38450', '#f3a750', '#f2eb2a', '#7ecb24', '#2ac15c',
+  '#2dded3', '#7e80f3', '#ad68f2', '#f575f5', '#ee90be',
+  '#cd9262', '#9d9d9d', '#d2d2d2'
+];
+
+// ---------------- INIT ----------------
+window.onload = () => {
+  const savedEntries = localStorage.getItem("entries");
+  if (savedEntries) entries = JSON.parse(savedEntries);
+
+  const savedCategories = localStorage.getItem("categories");
+  if (savedCategories) categories = JSON.parse(savedCategories);
+
+  renderCategoryDropdown();
+  renderColorOptions(document.getElementById('newColorContainer'), currentColor, c => currentColor = c);
+
+renderCategories();
+fileMode = "none";
+updateFileStatus();
+  render();
+};
+
+// ---------------- STORAGE ----------------
+function saveLocal() {
+  localStorage.setItem("entries", JSON.stringify(entries));
+  localStorage.setItem("categories", JSON.stringify(categories));
+}
+
+function confirmDelete() {
+  return confirm("Skutečně vymazat?");
+}
+
+// ---------------- LEFT RENDER ----------------
+function render() {
+  const container = document.getElementById('container');
+  container.innerHTML = '';
+
+  const catOrder = [{ id: 0, name: 'Nezařazené' }, ...categories];
+
+  catOrder.forEach(cat => {
+    const catDiv = document.createElement('div');
+    catDiv.className = 'category';
+
+    const title = document.createElement('div');
+    title.className = 'category-title';
+    title.textContent = cat.name;
+
+    catDiv.appendChild(title);
+
+    entries
+      .filter(e => (e.category || 0) == cat.id)
+      .forEach(entry => {
+
+        const wrap = document.createElement('div');
+        wrap.className = 'entry';
+
+        const btn = document.createElement('button');
+        btn.className = 'main-btn';
+        btn.textContent = entry.title || 'Untitled';
+        btn.style.backgroundColor = entry.color || colors[0];
+
+        // ✅ CLICK = COPY + EDIT
+        btn.onclick = () => {
+          navigator.clipboard.writeText(entry.text || '');
+          openEditor(entry);
+        };
+
+        wrap.appendChild(btn);
+        catDiv.appendChild(wrap);
+      });
+
+    container.appendChild(catDiv);
+  });
+}
+
+// ---------------- EDIT MODE ONLY ----------------
+function openEditor(entry) {
+  editingEntryIndex = entries.indexOf(entry);
+
+  document.getElementById('editTitle').value = entry.title || '';
+  document.getElementById('previewText').value = entry.text || '';
+
+  // category
+  const cat = document.getElementById('previewCategory');
+  cat.innerHTML = '';
+
+  const unc = document.createElement('option');
+  unc.value = 0;
+  unc.textContent = 'Nezařazené';
+  cat.appendChild(unc);
+
+  categories.forEach(c => {
+    const opt = document.createElement('option');
+    opt.value = c.id;
+    opt.textContent = c.id + ' - ' + c.name;
+    if (c.id === entry.category) opt.selected = true;
+    cat.appendChild(opt);
+  });
+
+  // color
+  currentColor = entry.color || colors[0];
+  renderColorOptions(document.getElementById('previewColor'), currentColor, c => currentColor = c);
+}
+
+// ---------------- ACTIONS ----------------
+function saveEdit() {
+  const entry = entries[editingEntryIndex];
+
+  entry.title = document.getElementById('editTitle').value;
+  entry.text = document.getElementById('previewText').value;
+  entry.category = parseInt(document.getElementById('previewCategory').value);
+  entry.color = currentColor;
+
+  saveLocal();
+  render();
+}
+
+function deleteEdit() {
+  if (!confirmDelete()) return;
+
+  entries.splice(editingEntryIndex, 1);
+  editingEntryIndex = null;
+
+  saveLocal();
+  render();
+
+  document.getElementById('editTitle').value = '';
+  document.getElementById('previewText').value = '';
+}
+
+// ---------------- HELPERS ----------------
+function renderColorOptions(container, currentColor, onSelect) {
+  container.innerHTML = '';
+
+  colors.forEach(color => {
+    const div = document.createElement('div');
+    div.className = 'color-option';
+    div.style.backgroundColor = color;
+
+    if (color === currentColor) div.classList.add('color-selected');
+
+    div.onclick = () => {
+      container.querySelectorAll('.color-option')
+        .forEach(c => c.classList.remove('color-selected'));
+
+      div.classList.add('color-selected');
+      onSelect(color);
+    };
+
+    container.appendChild(div);
+  });
+}
+
+function renderCategoryDropdown() {
+  const select = document.getElementById('newCategorySelect');
+  select.innerHTML = '';
+
+  const unc = document.createElement('option');
+  unc.value = 0;
+  unc.textContent = 'Nezařazené';
+  select.appendChild(unc);
+
+  categories.forEach(cat => {
+    const opt = document.createElement('option');
+    opt.value = cat.id;
+    opt.textContent = cat.id + ' - ' + cat.name;
+    select.appendChild(opt);
+  });
+}
+
+// ---------------- ADD ----------------
+function addCategory() {
+  const input = document.getElementById('newCategoryName');
+  if (!input.value) return;
+
+  const newId = categories.length
+    ? Math.max(...categories.map(c => c.id)) + 1
+    : 1;
+
+  categories.push({ id: newId, name: input.value });
+
+  input.value = '';
+saveLocal();
+renderCategories();
+renderCategoryDropdown();
+render();
+}
+function renderCategories() {
+  const container = document.getElementById('categoryContainer');
+  container.innerHTML = '';
+
+  categories.forEach((cat, index) => {
+    const div = document.createElement('div');
+
+    const text = document.createTextNode(cat.id + ' - ' + cat.name + ' ');
+
+    const editBtn = document.createElement('button');
+    editBtn.textContent = 'Upravit';
+    editBtn.onclick = () => {
+      const newName = prompt('Edit category name:', cat.name);
+      if (newName !== null && newName.trim() !== '') {
+        cat.name = newName.trim();
+        saveLocal();
+        renderCategories();
+        renderCategoryDropdown();
+        render();
+      }
+    };
+
+    const delBtn = document.createElement('button');
+    delBtn.textContent = 'Vymazat';
+    delBtn.onclick = () => {
+      if (!confirmDelete()) return;
+
+      const removed = categories[index];
+
+      // move entries to Uncategorized
+      entries.forEach(e => {
+        if (e.category === removed.id) e.category = 0;
+      });
+
+      categories.splice(index, 1);
+
+      saveLocal();
+      renderCategories();
+      renderCategoryDropdown();
+      render();
+    };
+
+    div.appendChild(text);
+    div.appendChild(editBtn);
+    div.appendChild(delBtn);
+
+    container.appendChild(div);
+  });
+}
+
+function addEntry() {
+  const title = document.getElementById('newTitle');
+  const text = document.getElementById('newText');
+  const cat = document.getElementById('newCategorySelect');
+
+  if (!title.value || !text.value) return;
+
+  entries.push({
+    title: title.value,
+    text: text.value,
+    category: parseInt(cat.value),
+    color: currentColor
+  });
+
+  title.value = '';
+  text.value = '';
+
+  saveLocal();
+  render();
+}
+
+async function connectFile() {
+  try {
+    [fileHandle] = await window.showOpenFilePicker({
+      types: [{
+        description: 'JSON',
+        accept: { 'application/json': ['.json'] }
+      }]
+    });
+
+    const file = await fileHandle.getFile();
+    const text = await file.text();
+    const data = JSON.parse(text);
+
+    entries = data.entries || [];
+    categories = data.categories || [];
+
+    saveLocal();
+    renderCategories();
+    renderCategoryDropdown();
+    updateFileStatus();
+    render();
+    fileMode = "connected";
+    updateFileStatus();
+
+    alert('Databáze připojena');
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+
+async function saveToFile() {
+  try {
+    if (!fileHandle) return alert('Nelze uložit - databáze nepřipojena');
+
+    const writable = await fileHandle.createWritable();
+
+    await writable.write(JSON.stringify({
+      entries,
+      categories
+    }, null, 2));
+
+    await writable.close();
+
+    alert('Uloženo');
+  } catch (err) {
+    alert('Error: ' + err.message);
+  }
+}
+function updateFileStatus() {
+  const status = document.getElementById('fileStatus');
+  const headerWarn = document.getElementById('headerWarning');
+
+  if (fileMode === "connected") {
+    status.textContent = "✅ Databáze připojena (ukládání zapnuto)";
+    status.style.color = "green";
+    headerWarn.style.display = "none";
+  }
+  else if (fileMode === "fallback") {
+    status.textContent = "⚠️ Databáze připojena (ukládání vypnuto - soubor je potřeba stáhnout manuálně)";
+    status.style.color = "orange";
+    headerWarn.style.display = "none";
+  }
+  else {
+    status.textContent = "⚠️ Varování: databáze nepřipojena";
+    status.style.color = "red";
+  }
+}
+function loadFileFallback(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+
+  reader.onload = function(e) {
+    try {
+      const data = JSON.parse(e.target.result);
+
+      entries = data.entries || [];
+      categories = data.categories || [];
+
+      // ⚠️ Important: fallback has no fileHandle
+      fileHandle = null;
+
+      saveLocal();
+      renderCategories();
+      renderCategoryDropdown();
+      render();
+        fileMode = "fallback";
+        updateFileStatus();
+
+      alert('Databáze nahrána v manuálním módu');
+    } catch (err) {
+      alert('Error: ' + err.message);
+    }
+  };
+
+  reader.readAsText(file);
+}
+function downloadJSON() {
+  const data = JSON.stringify({ entries, categories }, null, 2);
+
+  const blob = new Blob([data], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "database.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+function downloadTemplate() {
+  const template = {
+    entries: [],
+    categories: []
+  };
+
+  const blob = new Blob(
+    [JSON.stringify(template, null, 2)],
+    { type: "application/json" }
+  );
+
+  const url = URL.createObjectURL(blob);
+
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = "template.json";
+  a.click();
+
+  URL.revokeObjectURL(url);
+}
+function loadInstructions() {
+  try {
+    const jsonText = document.getElementById('instructionData').textContent;
+    const data = JSON.parse(jsonText);
+
+    entries = data.entries || [];
+    categories = data.categories || [];
+
+    // this is NOT a file connection
+    fileHandle = null;
+    fileMode = "fallback";
+
+    saveLocal();
+    renderCategories();
+    renderCategoryDropdown();
+    render();
+
+    updateFileStatus();
+
+    alert('Návod načten');
+  } catch (err) {
+    alert('Error loading instructions: ' + err.message);
+  }
+}
+
+
+</script>
+
+</body>
+</html>
