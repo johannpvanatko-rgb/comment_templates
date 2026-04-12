@@ -5,7 +5,7 @@
       <link rel="stylesheet" href="./styles.css">
 
   <title>Správce patiček</title>
-
+<!-- Následují kouzla z ChatGPT: -->
   <style>
     body { font-family: Arial; margin: 0; }
 
@@ -70,6 +70,9 @@
     <hr>
 
     <h3>Databáze</h3>
+    <div id="fileStatus" style="margin-top:10px; font-weight:bold; color:red;">
+    ⚠️ Varování: databáze nepřipojena
+    </div>
     <p>Nahrajte soubor databáze:</p>
     <button onclick="connectFile()" class="btn-upload-db">Nahrát databázi</button>
     <button onclick="saveToFile()" class="btn-save-db">Uložit databázi</button>
@@ -77,20 +80,17 @@
     <p>Nahrát manuálně (pokud předchozí sekce nefunguje):</p>
     <input type="file" id="fileInput" accept=".json" onchange="loadFileFallback(event)">
     <button onclick="downloadJSON()">Stáhnout databázi</button>
-      <p>
+      <p style="margin-top:0.1em;">
       <em style="color:grey; font-size:0.8em;">
         Stáhne nový soubor s aktuálním obsahem (pokud používáte manuální nahrávání nebo jste zapomněli databázi před změnami nahrát).
       </em>
     </p>
-    <div id="fileStatus" style="margin-top:10px; font-weight:bold; color:red;">
-    ⚠️ Varování: databáze nepřipojena
-    </div>
     <p>
       Prázdný soubor je ke stažení zde:
     </p>
-    <p>
+    <p style="margin-top:0.1em;">
       <em style="color:grey; font-size:0.8em;">
-        je možné ho libovolně přejmenovat, stačí pouze používat tuto šablonu a neměnit koncovku .json
+        Je možné ho libovolně přejmenovat, stačí pouze používat tuto šablonu a neměnit koncovku .json
       </em>
     </p>
     <a href="" onclick="downloadTemplate()" class="template-download">Stáhnout šablonu</a>
