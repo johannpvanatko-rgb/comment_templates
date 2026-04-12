@@ -597,6 +597,12 @@ function downloadTemplate() {
   URL.revokeObjectURL(url);
 }
 function loadInstructions() {
+  const userConfirmed = confirm("Načíst návod? Neuložené změny budou ztraceny.");
+
+  if (!userConfirmed) {
+    return; // stop execution if user clicks "Cancel"
+  }
+
   try {
     const jsonText = document.getElementById('instructionData').textContent;
     const data = JSON.parse(jsonText);
@@ -614,8 +620,6 @@ function loadInstructions() {
     render();
 
     updateFileStatus();
-
-    alert('Návod načten');
   } catch (err) {
     alert('Error loading instructions: ' + err.message);
   }
