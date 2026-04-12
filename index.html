@@ -77,6 +77,11 @@
     <p>Nahrát manuálně (pokud předchozí sekce nefunguje):</p>
     <input type="file" id="fileInput" accept=".json" onchange="loadFileFallback(event)">
     <button onclick="downloadJSON()">Stáhnout databázi</button>
+      <p>
+      <em style="color:grey; font-size:0.8em;">
+        Stáhne nový soubor s aktuálním obsahem (pokud používáte manuální nahrávání nebo jste zapomněli databázi před změnami nahrát).
+      </em>
+    </p>
     <div id="fileStatus" style="margin-top:10px; font-weight:bold; color:red;">
     ⚠️ Varování: databáze nepřipojena
     </div>
