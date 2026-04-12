@@ -65,8 +65,10 @@
     <h2>Správce patiček</h2>
     <hr>
 
+    <h3>Databáze</h3>
     <button onclick="connectFile()" class="btn-upload-db">Nahrát databázi</button>
     <button onclick="saveToFile()" class="btn-save-db">Uložit databázi</button>
+      <br>
     <p>Nahrát manuálně - pro starší prohlížeče a Firefox:</p>
     <input type="file" id="fileInput" accept=".json" onchange="loadFileFallback(event)">
     <button onclick="downloadJSON()">Stáhnout databázi</button>
