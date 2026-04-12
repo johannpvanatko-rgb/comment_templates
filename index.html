@@ -66,15 +66,20 @@
     <hr>
 
     <h3>Databáze</h3>
+    <p>Nahrajte soubor databáze:</p>
     <button onclick="connectFile()" class="btn-upload-db">Nahrát databázi</button>
     <button onclick="saveToFile()" class="btn-save-db">Uložit databázi</button>
       <br>
-    <p>Nahrát manuálně - pro starší prohlížeče a Firefox:</p>
+    <p>Nahrát manuálně (pokud předchozí sekce nefunguje):</p>
     <input type="file" id="fileInput" accept=".json" onchange="loadFileFallback(event)">
     <button onclick="downloadJSON()">Stáhnout databázi</button>
     <div id="fileStatus" style="margin-top:10px; font-weight:bold; color:red;">
     ⚠️ Varování: databáze nepřipojena
     </div>
+    <p><em>
+      Prázdný soubor je ke stažení zde (je možné ho libovolně přejmenovat, stačí pouze používat tuto šablonu a neměnit koncovku .json):
+    </em></p>
+    <br>
     <a href="" onclick="downloadTemplate()" class="template-download">Stáhnout šablonu</a>
     <br>
     <a href="https://github.com/johannpvanatko-rgb/comment_templates">Soubory webu a návod</a>
